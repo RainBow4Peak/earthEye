@@ -1,0 +1,22 @@
+1.问题现象：
+ERROR 1130 (HY000): Host 'localhost' is not allowed to connect to this MySQL server
+D:\Wamp\mysql-5.6.21\bin>mysql.exe -u root -p
+Enter password:
+ERROR 1130 (HY000): Host 'localhost' is not allowed to connect to this MySQL server
+ 2.解析：
+此处是root账户没有本地数据库的访问权限，所以无法连接数据库，需要使用grant给root账户授权。
+授权之前需要登录到数据库，使用skip-grant-tables参数
+skip-grant-tables  顾名思义，数据库启动的时候 跳跃权限表的限制，不用验证密码，直接登录。
+3. 方法：
+a、编辑 my.ini，在[mysqld]的段中加上一句：skip-grant-tables 
+[mysqld] 
+datadir=/var/lib/mysql 
+socket=/var/lib/mysql/mysql.sock 
+skip-name-resolve 
+skip-grant-tables 
+临时解决方案，亦可以用于忘记mysql root用户密码时使用，安全性也比较难以保证。
+b、然后登陆到root账户，此时不需要输入密码就可以进入，然后grant授权
+mysql> grant all privileges on *.* to root@'localhost' identified by "你想设置的密码";
+ 如果此处报错  ERROR 1290 (HY000): The MySQL server is running with the --skip-grant-tables option so it cannot execute this statement
+只需要刷新权限就行，flush privileges;然后再执行授权命令就行了。
+c、最后记得在配置文件中删除 skip-grant-tables  参数，然后重启MySQL服务。
