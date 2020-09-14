@@ -3,7 +3,7 @@ Earth Eye Equipment Management Platform
 
 序号	文件名	备注
 
-1	《三明全球眼系统安装手册.docx》	系统安装说明
+1	《全球眼系统安装手册.docx》	系统安装说明
 
 2	mysql-5.5.37-win32.msi	mysql安装包5.5版
 
